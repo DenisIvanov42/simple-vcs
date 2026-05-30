@@ -20,11 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import SAP.Project.simple_vcs.dto.UserRegistrationDto;
 import SAP.Project.simple_vcs.dto.UserResponseDto;
+import SAP.Project.simple_vcs.entity.Comment;
 import SAP.Project.simple_vcs.entity.Role;
 import SAP.Project.simple_vcs.entity.User;
+import SAP.Project.simple_vcs.entity.Version;
 import SAP.Project.simple_vcs.exception.UserAlreadyExistsException;
+import SAP.Project.simple_vcs.repository.CommentRepository;
 import SAP.Project.simple_vcs.repository.RoleRepository;
 import SAP.Project.simple_vcs.repository.UserRepository;
+import SAP.Project.simple_vcs.repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,6 +41,9 @@ public class UserService implements UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuditLogService auditLogService;
+    private final VersionRepository versionRepository;
+    private final CommentRepository commentRepository;
+
 
     public void registerUser(UserRegistrationDto dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
@@ -147,6 +154,36 @@ public class UserService implements UserDetailsService {
         }
 
         return new SAP.Project.simple_vcs.security.CustomUserDetails(user);
+    }
+
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 1. Remove author from their versions
+        List<Version> authoredVersions = versionRepository.findByAuthor(user);
+        for (Version v : authoredVersions) {
+            v.setAuthor(null);
+        }
+        versionRepository.saveAll(authoredVersions);
+
+        // 2. Remove reviewer from reviewed versions
+        List<Version> reviewedVersions = versionRepository.findByReviewer(user);
+        for (Version v : reviewedVersions) {
+            v.setReviewer(null);
+        }
+        versionRepository.saveAll(reviewedVersions);
+
+        // 3. Remove author from their comments
+        List<Comment> comments = commentRepository.findByAuthor(user);
+        for (Comment c : comments) {
+            c.setAuthor(null);
+        }
+        commentRepository.saveAll(comments);
+
+        userRepository.delete(user);
+        
+        auditLogService.logAction("DELETE", "User", userId, "Deleted user");
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

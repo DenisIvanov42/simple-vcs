@@ -45,6 +45,12 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @PostMapping("/admin/users/{id}/delete")
+    public String deleteDocument(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "redirect:/admin/users";
+    }
+
     @PostMapping("/admin/roles")
     public ResponseEntity<Role> createRole(@RequestParam String name, @RequestParam String description) {
         return ResponseEntity.ok(userService.createRole(name, description));
