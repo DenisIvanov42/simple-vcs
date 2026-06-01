@@ -117,11 +117,65 @@
 
 
 
+.doc-text-area {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.2);
+   border-radius: 8px;
+  padding: 10px;
+}
+
+.dark-theme .doc-text-area{
+  color: #cfd0d2;  
+  background-color: #161b22;
+}
+
+.light-theme .doc-text-area{
+  color: #333;  
+  background-color: #ffffff;
+}
 
 
+  .input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
 
+  .light-theme .input-group textarea {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1c1c1c;
+    border-color: rgba(46, 125, 50, 0.25);
+  }
 
+  .light-theme .input-group textarea::placeholder {
+    color: rgba(0, 0, 0, 0.35);
+  }
 
+  .light-theme .input-group textarea:focus {
+    background: #ffffff;
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+  }
+
+  .dark-theme .input-group textarea {
+    background: rgba(0, 0, 0, 0.3);
+    color: #e6edf3;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .dark-theme .input-group textarea::placeholder {
+    color: rgba(230, 237, 243, 0.4);
+  }
+
+  .dark-theme .input-group textarea:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: #00ffaa;
+    box-shadow: 0 0 0 3px rgba(0, 255, 170, 0.2);
+  }
 
 
 
