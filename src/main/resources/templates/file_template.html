@@ -197,13 +197,15 @@
 
     <!-- Share Modal -->
     <div id="shareModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
-        <div style="background:#fff; border-radius:12px; padding:32px; width:90%; max-width:440px; box-shadow:0 16px 48px rgba(0,0,0,0.2); position:relative;">
+        <div class="modal-card">
+        
             <button onclick="closeShareModal()" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:1.4rem; cursor:pointer; color:#666; line-height:1;">&times;</button>
             <h2 style="margin:0 0 8px; font-size:1.4rem;">Share Document</h2>
             <p style="margin:0 0 16px; color:#666; font-size:0.9rem;">Enter the username or email of the user to share with.</p>
             <form th:action="@{/document/{id}/share(id=${document.id})}" method="post">
-                <input type="text" name="emailOrUsername" placeholder="Username or email"
-                       style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(0,0,0,0.2); font-size:0.95rem; box-sizing:border-box;" required/>
+                <div class="input-group" style="max-width: 100%;">
+                    <input type="text" name="emailOrUsername" placeholder="Username or email" required>
+                </div>
                 <div style="display:flex; gap:10px; margin-top:16px; justify-content:flex-end;">
                     <button type="button" onclick="closeShareModal()" class="action-btn revert">Cancel</button>
                     <button type="submit" class="action-btn primary">Share</button>
@@ -214,14 +216,17 @@
 
     <!-- New Version Modal -->
     <div id="newVersionModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
-        <div style="background:#fff; border-radius:12px; padding:32px; width:90%; max-width:680px; box-shadow:0 16px 48px rgba(0,0,0,0.2); position:relative;">
+        <div class="modal-card">
             <button onclick="closeNewVersionModal()" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:1.4rem; cursor:pointer; color:#666; line-height:1;">&times;</button>
             <h2 style="margin:0 0 8px; font-size:1.4rem;">New Version</h2>
             <p style="margin:0 0 16px; color:#666; font-size:0.9rem;">Edit the content below — it starts from the current active version.</p>
             <form th:action="@{/document/{id}/version/new(id=${document.id})}" method="post">
-                <textarea name="content" rows="12"
-                          th:text="${document.activeVersion != null ? document.activeVersion.content : ''}"
-                          style="width:100%; padding:12px; border-radius:8px; border:1px solid rgba(0,0,0,0.2); font-size:0.95rem; resize:vertical; box-sizing:border-box; font-family:inherit;"></textarea>
+                <div class="input-group" style="max-width: 100%;">
+                    <textarea name="content" rows="12" 
+                    th:text="${document.activeVersion != null ? document.activeVersion.content : ''}"
+                    style="resize:vertical; font-family:inherit;">
+                    </textarea>
+                </div>
                 <div style="display:flex; gap:10px; margin-top:16px; justify-content:flex-end;">
                     <button type="button" onclick="closeNewVersionModal()" class="action-btn revert">Cancel</button>
                     <button type="submit" class="action-btn primary">Create Version</button>

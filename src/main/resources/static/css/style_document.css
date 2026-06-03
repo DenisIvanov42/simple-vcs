@@ -572,3 +572,25 @@
 .dark-theme .comment-textarea:focus {
     border-color: #00ffaa;
 }
+
+.modal-card {
+    width: 90%;
+    max-width: 500px;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    position: relative;
+    background: #ffffff; 
+}
+
+.light-theme .modal-card {
+    background: #ffffff;
+    color: #1c1c1c;
+    border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.dark-theme .modal-card {
+    background: rgba(22, 27, 34, 0.95);
+    color: #e6edf3;
+    border: 1px solid #30363d;
+}
