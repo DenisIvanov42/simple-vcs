@@ -34,6 +34,7 @@ public class CommentService {
 
         User user = userRepository.findById(authorId)
                 .orElseThrow(() -> new UserNotFoundException("User with id" + authorId + " not found"));
+        
 
         Version documentLastVersion = document.getVersions().getFirst();
 

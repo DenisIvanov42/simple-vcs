@@ -161,8 +161,7 @@ async function loadComments() {
 
             el.innerHTML = `
                 <div class="comment-header">
-                    <span class="comment-author">@${comment.authorUsername} (${rolesStr})</span>
-                    <span class="comment-meta" style="opacity: 0.7;">${formattedDate}</span>
+                    <span class="comment-author">@${comment.authorUsername || 'Deleted User'} ${rolesStr ? `(${rolesStr})` : ''}</span>                    <span class="comment-meta" style="opacity: 0.7;">${formattedDate}</span>
                     <span class="comment-meta" style="opacity: 0.7;">v${comment.versionNum}</span>
                     <span class="comment-meta" style="opacity: 0.7;">Written at version status: ${comment.versionStatus}</span>
                 </div>

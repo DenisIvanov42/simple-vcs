@@ -129,7 +129,7 @@
                         <tr th:each="doc : ${documents}" style="border-bottom: 1px solid rgba(0,0,0,0.1); transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.02)'" onmouseout="this.style.backgroundColor='transparent'">
                             <td style="padding: 12px; color: var(--text-color);" th:text="${doc.id}">1</td>
                             <td style="padding: 12px; color: var(--text-color);" th:text="${doc.title}">Title</td>
-                            <td style="padding: 12px; color: var(--text-color);" th:text="${doc.activeVersion != null ? doc.activeVersion.author.username : '-'}">Author</td>
+                            <td style="padding: 12px; color: var(--text-color);" th:text="${doc.activeVersion?.author?.username ?: 'Deleted User'}">Author</td>
                             <td style="padding: 12px; color: var(--text-color);" th:text="${doc.activeVersion != null ? 'v' + doc.activeVersion.versionNumber : '-'}">v1</td>
                             <td style="padding: 12px;">
                                 <span th:if="${doc.activeVersion != null}"

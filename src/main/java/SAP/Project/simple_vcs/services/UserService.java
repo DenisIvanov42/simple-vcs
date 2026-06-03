@@ -21,11 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import SAP.Project.simple_vcs.dto.UserRegistrationDto;
 import SAP.Project.simple_vcs.dto.UserResponseDto;
 import SAP.Project.simple_vcs.entity.Comment;
+import SAP.Project.simple_vcs.entity.Document;
 import SAP.Project.simple_vcs.entity.Role;
 import SAP.Project.simple_vcs.entity.User;
 import SAP.Project.simple_vcs.entity.Version;
 import SAP.Project.simple_vcs.exception.UserAlreadyExistsException;
 import SAP.Project.simple_vcs.repository.CommentRepository;
+import SAP.Project.simple_vcs.repository.DocumentRepository;
 import SAP.Project.simple_vcs.repository.RoleRepository;
 import SAP.Project.simple_vcs.repository.UserRepository;
 import SAP.Project.simple_vcs.repository.VersionRepository;
@@ -43,6 +45,7 @@ public class UserService implements UserDetailsService {
     private final AuditLogService auditLogService;
     private final VersionRepository versionRepository;
     private final CommentRepository commentRepository;
+    private final DocumentRepository documentRepository; 
 
 
     public void registerUser(UserRegistrationDto dto) {
@@ -180,6 +183,13 @@ public class UserService implements UserDetailsService {
             c.setAuthor(null);
         }
         commentRepository.saveAll(comments);
+
+        // 4. Remove documents shared with user
+        List<Document> documents = documentRepository.findBySharedWithContaining(user);
+        for(Document d: documents){
+            d.setSharedWith(null);
+        }
+        documentRepository.saveAll(documents);
 
         userRepository.delete(user);
         

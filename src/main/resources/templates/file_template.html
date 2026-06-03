@@ -111,7 +111,7 @@
                                     + (${version.status.name() == 'REJECTED'} ? 'status-rejected' : '')"
                                     th:text="${#strings.replace(version.status.name(), '_', ' ')}">DRAFT</span>
                             </td>
-                            <td th:text="${version.author != null ? version.author.username : 'Unknown'}">Author</td>
+                            <td th:text="${version.author != null ? version.author.username : 'Deleted User'}">Author</td>
                             <td>
                                 <!-- Submit for Review: author, reviewer or admin, only on DRAFT -->
                                 <form th:if="${version.status.name() == 'DRAFT'}"
@@ -187,7 +187,7 @@
                 <div th:if="${document.sharedWith != null and !document.sharedWith.empty}" style="margin-top: 10px; font-size: 0.88rem; color: #555;">
                     Shared with:
                     <span th:each="u, iter : ${document.sharedWith}">
-                        <strong th:text="${u.username}"></strong><span th:if="${!iter.last}">, </span>
+                        <strong th:text="${u != null ? u.username: 'Deleted User'}"></strong><span th:if="${!iter.last}">, </span>
                     </span>
                 </div>
             </div>

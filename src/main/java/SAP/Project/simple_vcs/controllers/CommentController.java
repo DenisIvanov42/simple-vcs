@@ -1,4 +1,17 @@
 package SAP.Project.simple_vcs.controllers;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import SAP.Project.simple_vcs.dto.CommentRequest;
 import SAP.Project.simple_vcs.dto.CommentResponse;
 import SAP.Project.simple_vcs.entity.Comment;
@@ -7,13 +20,6 @@ import SAP.Project.simple_vcs.exception.UserNotFoundException;
 import SAP.Project.simple_vcs.security.CustomUserDetails;
 import SAP.Project.simple_vcs.services.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,12 +53,21 @@ public class CommentController {
         List<Comment> comments = commentService.getAllCommentsByDocId(docId);
         List<CommentResponse> response = new ArrayList<>();
         for (Comment comment : comments) {
+
+            String authorUsername = "Deleted User";
+            List<String> authorRoles = new ArrayList<>(); 
+
+            if(comment.getAuthor()!=null){
+                authorUsername = comment.getAuthor().getUsername();
+                authorRoles = comment.getAuthor().getRoles().stream().map(role -> role.getName()).toList();
+            }
+
             response.add(new CommentResponse(
                     comment.getVersion().getVersionNumber(),
                     comment.getContent(),
                     comment.getVersion().getStatus().toString(),
-                    comment.getAuthor().getUsername(),
-                    comment.getAuthor().getRoles().stream().map(role -> role.getName()).toList(),
+                    authorUsername,
+                    authorRoles,
                     comment.getCreatedAt()
             ));
         }

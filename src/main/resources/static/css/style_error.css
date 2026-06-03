@@ -13,17 +13,13 @@
 .error-code {
     font-size: clamp(6rem, 15vw, 12rem);
     font-weight: 900;
-    background: linear-gradient(135deg, #2e7d32 0%, #81c784 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
     line-height: 1;
+    color:#34495e;
 }
 
 .dark-theme .error-code {
-    background: linear-gradient(135deg, #00ffaa 0%, #0088ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color:#00ffaa;
 }
 
 .error-message {
